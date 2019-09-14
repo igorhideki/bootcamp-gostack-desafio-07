@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Home from './pages/Home';
 import Cart from './pages/Cart';
+import HeaderCart from './components/HeaderCart';
 import logo from './assets/logo.png';
 
 Icon.loadFont();
@@ -35,15 +36,7 @@ const Routes = createAppContainer(
         },
         headerTintColor: '#FFF',
         headerLeft: null,
-        headerRight: (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Cart')}
-            activeOpacity={0.8}
-            style={{ marginRight: 20 }}
-          >
-            <Icon name="shopping-basket" color="#fff" size={28} />
-          </TouchableOpacity>
-        ),
+        headerRight: <HeaderCart />,
       }),
     }
   )
