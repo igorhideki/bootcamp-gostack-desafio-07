@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { connect } from 'react-redux';
 
 import { formatPrice } from '../../util/format';
 
@@ -37,14 +38,17 @@ class Home extends Component {
   }
 
   handleAddToCart = product => {
-    const { navigation } = this.props;
-    console.tron.log(product);
+    const { navigation, dispatch } = this.props;
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    });
     navigation.navigate('Cart');
   };
 
   render() {
     const { products } = this.state;
-
+    const { cartSize } = this.props;
     return (
       <Container>
         <List
@@ -68,10 +72,11 @@ class Home extends Component {
             </Product>
           )}
         />
-        <Text>Home</Text>
       </Container>
     );
   }
 }
 
-export default Home;
+export default connect(state => ({
+  cartSize: state.cart.length,
+}))(Home);

@@ -13,7 +13,7 @@ export const CartWrapper = styled.View`
   border-radius: 4px;
 `;
 
-export const CartList = styled.View``;
+export const CartList = styled.FlatList``;
 
 export const CartItem = styled.View`
   margin: 10px 0;
@@ -37,9 +37,12 @@ export const ProductImage = styled.Image`
 export const ProductInfo = styled.View`
   justify-content: center;
   padding-left: 10px;
+  flex: 1;
 `;
 
-export const ProductName = styled.Text`
+export const ProductName = styled.Text.attrs({
+  numberOfLines: 2,
+})`
   font-size: 14px;
   color: #333;
 `;
@@ -47,6 +50,7 @@ export const ProductName = styled.Text`
 export const ProductPrice = styled.Text`
   font-size: 16px;
   font-weight: bold;
+  margin-top: 5px;
 `;
 
 export const RemoveProductButton = styled.TouchableOpacity`
