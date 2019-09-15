@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import * as cartActions from '../../store/modules/cart/actions';
 import { formatPrice } from '../../util/format';
 
 import {
@@ -38,11 +40,9 @@ class Home extends Component {
   }
 
   handleAddToCart = product => {
-    const { navigation, dispatch } = this.props;
-    dispatch({
-      type: 'ADD_TO_CART',
-      product,
-    });
+    const { navigation, addToCart } = this.props;
+
+    addToCart(product);
     navigation.navigate('Cart');
   };
 
@@ -77,6 +77,10 @@ class Home extends Component {
   }
 }
 
-export default connect(state => ({
-  cartSize: state.cart.length,
-}))(Home);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(cartActions, dispatch);
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Home);

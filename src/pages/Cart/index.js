@@ -1,6 +1,9 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as cartActions from '../../store/modules/cart/actions';
 
 import {
   Container,
@@ -26,7 +29,15 @@ import {
   CheckoutButtonText,
 } from './styles';
 
-function Cart({ cart }) {
+function Cart({ cart, removeFromCart, updateAmount }) {
+  function increment(product) {
+    updateAmount(product.id, product.amount + 1);
+  }
+
+  function decrement(product) {
+    updateAmount(product.id, product.amount - 1);
+  }
+
   return (
     <Container>
       <CartWrapper>
@@ -43,13 +54,13 @@ function Cart({ cart }) {
                     <ProductPrice>{item.priceFormatted}</ProductPrice>
                   </ProductInfo>
                 </ProductContent>
-                <RemoveProductButton>
+                <RemoveProductButton onPress={() => removeFromCart(item.id)}>
                   <Icon name="delete" size={28} color="#7159c1" />
                 </RemoveProductButton>
               </Product>
               <ProductFooter>
                 <ProductActions>
-                  <ProductActionsButton>
+                  <ProductActionsButton onPress={() => decrement(item)}>
                     <Icon
                       name="remove-circle-outline"
                       size={22}
@@ -57,9 +68,9 @@ function Cart({ cart }) {
                     />
                   </ProductActionsButton>
                   <ProductAmount>
-                    <ProductAmountText>3</ProductAmountText>
+                    <ProductAmountText>{item.amount}</ProductAmountText>
                   </ProductAmount>
-                  <ProductActionsButton>
+                  <ProductActionsButton onPress={() => increment(item)}>
                     <Icon name="add-circle-outline" size={22} color="#7159c1" />
                   </ProductActionsButton>
                 </ProductActions>
@@ -84,4 +95,10 @@ const mapStateToProps = state => ({
   cart: state.cart,
 });
 
-export default connect(mapStateToProps)(Cart);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(cartActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Cart);
