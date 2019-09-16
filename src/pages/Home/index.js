@@ -39,16 +39,16 @@ class Home extends Component {
     this.setState({ products: data });
   }
 
-  handleAddToCart = product => {
-    const { navigation, addToCart } = this.props;
+  handleAddToCart = id => {
+    const { navigation, addToCartRequest } = this.props;
 
-    addToCart(product);
-    navigation.navigate('Cart');
+    addToCartRequest(id);
+    // navigation.navigate('Cart');
   };
 
   render() {
     const { products } = this.state;
-    const { cartSize } = this.props;
+    const { cartSize, amount } = this.props;
     return (
       <Container>
         <List
@@ -60,10 +60,13 @@ class Home extends Component {
               <ProductImage source={{ uri: item.image }} />
               <ProductTitle>{item.title}</ProductTitle>
               <ProductPrice>{item.priceFormatted}</ProductPrice>
-              <ProductButton onPress={() => this.handleAddToCart(item)}>
+              <ProductButton onPress={() => this.handleAddToCart(item.id)}>
                 <ProductButtonIcon>
                   <Icon name="shopping-basket" color="#fff" size={18} />
-                  <Text style={{ color: '#fff' }}> 1</Text>
+                  <Text style={{ color: '#fff', marginLeft: 4 }}>
+                    {' '}
+                    {amount[item.id] || 0}
+                  </Text>
                 </ProductButtonIcon>
                 <ProductButtonWrapper>
                   <ProductButtonText>Adicionar</ProductButtonText>
@@ -76,11 +79,16 @@ class Home extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    return { ...amount, [product.id]: product.amount };
+  }, {}),
+});
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(cartActions, dispatch);
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Home);

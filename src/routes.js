@@ -36,7 +36,7 @@ const Routes = createAppContainer(
         },
         headerTintColor: '#FFF',
         headerLeft: null,
-        headerRight: <HeaderCart />,
+        headerRight: <HeaderCart navigation={navigation} />,
       }),
     }
   )

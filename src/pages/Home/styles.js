@@ -52,6 +52,7 @@ export const ProductButtonIcon = styled.View`
   padding: 12px;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
 `;
 
 export const ProductButtonWrapper = styled.View`
