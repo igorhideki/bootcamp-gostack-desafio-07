@@ -6,12 +6,17 @@ import './config/ReactotronConfig';
 
 import Routes from './routes';
 import store from './store';
+import NavigationService from './services/NavigationService';
 
 const App = () => {
   return (
     <Provider store={store}>
       <StatusBar barStyle="light-content" backgroundColor="#141419" />
-      <Routes />
+      <Routes
+        ref={navigationrRef =>
+          NavigationService.setTopLevelNavigator(navigationrRef)
+        }
+      />
     </Provider>
   );
 };
